@@ -62,18 +62,37 @@ function showQuestion() {
   headerContainer.innerHTML = title;
 
   //Варианты ответов
+  let answerNumber = 1;
+
   for (answerText of questions[questionIndex]["answers"]) {
     const questionTemplate = `
    <li>
       <label>
-         <input type="radio" class="answer" name="answer" />
+         <input value="%number%" type="radio" class="answer" name="answer" />
          <span>%answer%</span>
       </label>
    </li>
    `;
 
-    const answerHTML = questionTemplate.replace("%answer%", answerText);
+    let answerHTML = questionTemplate
+      .replace("%answer%", answerText)
+      .replace("%number%", answerNumber);
 
     listContainer.innerHTML += answerHTML;
+    answerNumber++;
   }
 }
+
+function checkAnswer() {
+  //Находим выбранную радио кнопку
+  const checkedRadio = listContainer.querySelector(
+    'input[type="radio"]:checked'
+  );
+
+  //Если ответ не выбран - ничего не делаем и выходим из функции
+  if (!checkedRadio) {
+    return;
+  }
+}
+
+submitBtn.addEventListener("click", checkAnswer);
